@@ -1,10 +1,10 @@
 COMPOSE_YAML ?= compose.yml
-VOLUME_YAML ?= volumes.yml
+VOLUME_YAML ?= volume.yml
 MACHINE ?= docker-machine
 COMPOSE ?= docker-compose -f $(COMPOSE_YAML)
 VOLUME ?= docker-volume
-VOLUME_OPTIONS ?= --conf $(VOLUME_YAML) -m $(DOCKER_MACHINE_NAME)
-INFRA_SERVICES ?= redis mysql fakes3
+VOLUME_OPTIONS ?= --conf $(VOLUME_YAML) --compose-yml $(COMPOSE_YAML) -m $(DOCKER_MACHINE_NAME)
+DOCKER_INFRA_SERVICES ?= redis mysql fakes3
 
 
 .PHONY: docker-ssh
@@ -33,14 +33,14 @@ docker-ps:
 docker-warmup:
 	@# ミドルウェアをデーモンモードで起動します。
 
-	@$(COMPOSE) up -d $(INFRA_SERVICES)
+	@$(COMPOSE) up -d $(DOCKER_INFRA_SERVICES)
 
 
 .PHONY: docker-cooldown
 docker-cooldown:
 	@# ミドルウェアを停止します。
 
-	@$(COMPOSE)	stop $(INFRA_SERVICES)
+	@$(COMPOSE)	stop $(DOCKER_INFRA_SERVICES)
 
 
 .PHONY: docker-up

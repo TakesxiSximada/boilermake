@@ -7,6 +7,22 @@ VOLUME_OPTIONS ?= --conf $(VOLUME_YAML) --compose-yml $(COMPOSE_YAML) -m $(DOCKE
 DOCKER_INFRA_SERVICES ?= redis mysql fakes3
 
 
+.PHONY: docker-current
+docker-current:
+	@# docekr-compose.ymlやdocker-volume.ymlをシンボリックリンクとして生成
+
+	@ln -sf $(COMPOSE_YAML) docker-compose.yml
+	@ln -sf $(VOLUME_YAML) docker-volume.yml
+
+
+.PHONY: docker-uncurrent
+docker-uncurrent:
+	@# docekr-compose.ymlやdocker-volume.ymlを削除
+
+	@unlink docker-compose.yml
+	@unlink docker-volume.yml
+
+
 .PHONY: docker-ssh
 docker-ssh:
 	@# docker-machine ssh します。

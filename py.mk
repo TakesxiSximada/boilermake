@@ -20,7 +20,7 @@ py-bump:
 	@# versionをbumpします。
 
 	@if [ "$(version)" == "" ]; then echo "You must specify the version.\nex) make bump version=VERSION"; exit 1; fi
-	@sed -i -e "s/$(shell make version)/$(version)/" $(VERSION_FILE)
+	@sed -i -e "s/$(shell make py-version)/$(version)/" $(VERSION_FILE)
 
 
 .PHONY: py-release-production
